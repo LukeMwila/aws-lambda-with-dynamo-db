@@ -1,5 +1,7 @@
 import { APIGatewayEvent, Callback, Context, Handler } from "aws-lambda";
 
+import { saveItemInDB } from "./dynamodb-actions";
+
 export const respond = (fulfillmentText: any): any => {
   return {
     statusCode: 200,
@@ -12,19 +14,19 @@ export const respond = (fulfillmentText: any): any => {
   };
 };
 
-export const hello: Handler = (
+/** Save an item in the to-do list */
+export const saveToDoItem: Handler = async (
   event: APIGatewayEvent,
-  context: Context,
-  cb: Callback
+  context: Context
 ) => {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message:
-        "Go Serverless Webpack (Typescript) v1.0! Your function executed successfully!",
-      input: event
-    })
-  };
+  const incoming: { item: string; complete: boolean } = JSON.parse(event.body);
+  const { item, complete } = incoming;
 
-  cb(null, response);
+  try {
+    await saveItemInDB(item, complete);
+
+    return respond({ created: incoming });
+  } catch (err) {
+    return respond(err);
+  }
 };

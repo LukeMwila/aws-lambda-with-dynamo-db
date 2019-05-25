@@ -10,14 +10,26 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: eu-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:eu-west-1:id:table/to-do-list"
 
 functions:
-  hello:
-    handler: handler.hello
+  saveToDoItem:
+    handler: handler.saveToDoItem
     events:
       - http:
-          method: get
-          path: hello
+          method: post
+          path: save-to-do-item
+          cors: true
 
 resources:
   # DynamoDB

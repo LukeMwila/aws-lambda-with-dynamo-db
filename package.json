@@ -1,15 +1,21 @@
 {
   "name": "aws-lambda-with-dynamo-db",
   "version": "1.0.0",
-  "description": "Serverless webpack example using Typescript",
+  "description": "Serverless application with AWS Lambda and DynamoDB",
   "main": "handler.js",
   "scripts": {
+    "start": "sls offline start --port 4000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "aws-lambda": "^0.1.2",
+    "node": "^12.3.1",
+    "uuid": "^3.3.2"
+  },
   "devDependencies": {
     "@types/aws-lambda": "8.10.1",
     "@types/node": "^8.0.57",
+    "@types/uuid": "^3.4.4",
     "serverless-offline": "^4.10.6",
     "serverless-webpack": "^5.1.1",
     "source-map-support": "^0.5.6",
@@ -17,6 +23,6 @@
     "typescript": "^2.9.2",
     "webpack": "^4.5.0"
   },
-  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "author": "Luke Mwila",
   "license": "MIT"
 }
