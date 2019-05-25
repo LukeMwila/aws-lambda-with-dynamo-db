@@ -1,0 +1,17 @@
+Resources:
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: to-do-list
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: item
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      # Set the capacity
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
