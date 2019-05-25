@@ -1,12 +1,10 @@
 Resources:
-  NotesTable:
+  ToDoListTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: to-do-list
       AttributeDefinitions:
         - AttributeName: id
-          AttributeType: S
-        - AttributeName: item
           AttributeType: S
       KeySchema:
         - AttributeName: id
