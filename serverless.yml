@@ -18,9 +18,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:eu-west-1:id:table/to-do-list"
+      Resource: "arn:aws:dynamodb:eu-west-1:accountId:table/to-do-list"
 
 functions:
   saveToDoItem:
@@ -29,6 +27,13 @@ functions:
       - http:
           method: post
           path: save-to-do-item
+          cors: true
+  getToDoItem:
+    handler: handler.getToDoItem
+    events:
+      - http:
+          method: get
+          path: to-do-items/{id}
           cors: true
 
 resources:

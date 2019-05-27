@@ -1,10 +1,10 @@
 import { APIGatewayEvent, Callback, Context, Handler } from "aws-lambda";
 
-import { saveItemInDB } from "./dynamodb-actions";
+import { saveItemInDB, getItemFromDB } from "./dynamodb-actions";
 
-export const respond = (fulfillmentText: any): any => {
+export const respond = (fulfillmentText: any, statusCode: number): any => {
   return {
-    statusCode: 200,
+    statusCode,
     body: JSON.stringify(fulfillmentText),
     headers: {
       "Access-Control-Allow-Credentials": true,
@@ -25,8 +25,24 @@ export const saveToDoItem: Handler = async (
   try {
     await saveItemInDB(item, complete);
 
-    return respond({ created: incoming });
+    return respond({ created: incoming }, 201);
   } catch (err) {
-    return respond(err);
+    return respond(err, 400);
+  }
+};
+
+/** Get an item from the to-do-list table */
+export const getToDoItem: Handler = async (
+  event: APIGatewayEvent,
+  context: Context
+) => {
+  const id: string = event.pathParameters.id;
+
+  try {
+    const toDoItem = await getItemFromDB(id);
+
+    return respond(toDoItem, 200);
+  } catch (err) {
+    return respond(err, 404);
   }
 };
